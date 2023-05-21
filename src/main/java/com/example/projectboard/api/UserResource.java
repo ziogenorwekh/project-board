@@ -168,8 +168,8 @@ public class UserResource {
         UserResponse userResponse = new ModelMapper().map(userService.findOne(user.getUserId()),
                 UserResponse.class);
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(applyResponseFieldFilter(userResponse, "userId, username"));
+        return ResponseEntity.ok()
+                .body(applyResponseFieldFilter(userResponse, "userId", "username"));
     }
 
     private MappingJacksonValue applyResponseFieldFilter(Object response, String... includedFields) {
