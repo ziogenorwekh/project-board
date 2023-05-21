@@ -2,6 +2,7 @@ package com.example.projectboard.api;
 
 import com.example.projectboard.domain.User;
 import com.example.projectboard.dto.UserDto;
+import com.example.projectboard.exception.CustomizedResponseException;
 import com.example.projectboard.service.UserService;
 import com.example.projectboard.vo.*;
 import com.example.projectboard.vo.user.UserListResponse;
@@ -120,10 +121,10 @@ public class UserResource {
                     , content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
     public ResponseEntity<?> updateUser(@PathVariable @Parameter(description = "수정할 ID") String userId,
-                                           @Validated @RequestBody @Parameter(description = "수정할 데이터")
-                                           UserUpdateRequest userUpdateRequest,
-                                           @AuthenticationPrincipal
-                                           @Parameter(description = "로그인 정보") User user) {
+                                        @Validated @RequestBody @Parameter(description = "수정할 데이터")
+                                        UserUpdateRequest userUpdateRequest,
+                                        @AuthenticationPrincipal
+                                        @Parameter(description = "로그인 정보") User user) {
 
         UserDto updated = userService.updateUserInfo(userId, userUpdateRequest, user.getUserId());
         UserResponse userResponse = new ModelMapper().map(updated, UserResponse.class);
@@ -147,6 +148,28 @@ public class UserResource {
 
         userService.delete(userId, user.getUserId());
         return ResponseEntity.noContent().build();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/users/currents")
+    @Operation(summary = "현재 유저 조회", description = "토큰을 이용한 현재 유저 상태 조회")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "조회 성공"
+                    , content = @Content(schema = @Schema())),
+            @ApiResponse(responseCode = "410", description = "토큰 만료"
+                    , content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
+    })
+    public ResponseEntity<MappingJacksonValue> currentUser(@AuthenticationPrincipal
+                                                           @Parameter(description = "로그인 정보")
+                                                           User user) {
+        if (user == null) {
+            throw new CustomizedResponseException(HttpStatus.GONE, "token is expired.");
+        }
+
+        UserResponse userResponse = new ModelMapper().map(userService.findOne(user.getUserId()),
+                UserResponse.class);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(applyResponseFieldFilter(userResponse, "userId, username"));
     }
 
     private MappingJacksonValue applyResponseFieldFilter(Object response, String... includedFields) {
