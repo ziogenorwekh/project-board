@@ -54,9 +54,6 @@ dependencies {
     compileOnly 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
 }
 
-jar {
-    enabled = false
-}
 tasks.named('test') {
     useJUnitPlatform()
 }
