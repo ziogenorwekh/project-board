@@ -46,8 +46,6 @@ public class UserResourceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         userResource = new UserResource(userService);
-
-
     }
 
     @Test

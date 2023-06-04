@@ -17,7 +17,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     open-in-view: false
     database: mysql
 
@@ -28,7 +28,7 @@ springdoc:
 
   swagger-ui:
     enabled: true
-    path: ${swagger_uri}
+    path: /api-docs
 
 server:
-  port: 9090
+  port: 9000
