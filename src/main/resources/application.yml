@@ -2,6 +2,7 @@ logging:
   level:
     com.example.projectboard: DEBUG
     org.springframework.core.env.PropertySourcesPropertyResolver: TRACE
+    org.springframework.jdbc.core: DEBUG
 
 spring:
 
