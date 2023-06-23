@@ -23,7 +23,7 @@ import java.util.List;
 
 @RestController
 @ControllerAdvice
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://3.38.96.151:3000")
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
