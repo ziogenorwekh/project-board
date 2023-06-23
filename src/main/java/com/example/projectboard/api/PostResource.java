@@ -38,6 +38,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostResource {
 
     private final PostService postService;
