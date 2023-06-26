@@ -20,7 +20,6 @@ import java.util.List;
 
 @RestController
 @ControllerAdvice
-//@CrossOrigin(origins = "http://172.17.0.1:3000", methods = {RequestMethod.GET, RequestMethod.PUT,RequestMethod.DELETE,RequestMethod.POST}, allowedHeaders = "application/json")
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override

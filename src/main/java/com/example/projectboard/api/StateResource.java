@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-//@CrossOrigin(origins = "http://172.17.0.1:3000", methods = RequestMethod.GET, allowedHeaders = "application/json")
+@CrossOrigin(origins = "http://localhost:3000", methods = {RequestMethod.GET, RequestMethod.PUT,RequestMethod.DELETE,RequestMethod.POST}, allowedHeaders = "*")
 public class StateResource {
 
-    @RequestMapping(method = RequestMethod.GET,value = "/health-check")
+    @RequestMapping(method = RequestMethod.GET, value = "/health-check")
     public ResponseEntity<String> checkServerState() {
         return ResponseEntity.ok("connected");
     }
