@@ -39,7 +39,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://10.0.4.36:3000", methods = {RequestMethod.GET, RequestMethod.PUT,RequestMethod.DELETE,RequestMethod.POST}, allowedHeaders = "*")
+//@CrossOrigin(origins = "http://10.0.4.36:3000", methods = {RequestMethod.GET, RequestMethod.PUT,RequestMethod.DELETE,RequestMethod.POST}, allowedHeaders = "*")
 public class PostResource {
 
     private final PostService postService;
