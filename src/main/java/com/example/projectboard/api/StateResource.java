@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@CrossOrigin(origins = "http://43.200.8.149:3000", methods = {RequestMethod.GET, RequestMethod.PUT,RequestMethod.DELETE,RequestMethod.POST}, allowedHeaders = "*")
+@CrossOrigin(origins = "http://10.0.4.36:3000", methods = {RequestMethod.GET, RequestMethod.PUT,RequestMethod.DELETE,RequestMethod.POST}, allowedHeaders = "*")
 public class StateResource {
 
     @RequestMapping(method = RequestMethod.GET, value = "/health-check")

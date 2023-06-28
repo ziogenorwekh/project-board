@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
 @Tag(name = "사용자 API")
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://43.200.8.149:3000", methods = {RequestMethod.GET, RequestMethod.PUT,RequestMethod.DELETE,RequestMethod.POST}, allowedHeaders = "*")
+@CrossOrigin(origins = "http://10.0.4.36:3000", methods = {RequestMethod.GET, RequestMethod.PUT,RequestMethod.DELETE,RequestMethod.POST}, allowedHeaders = "*")
 public class UserResource {
 
     private final UserService userService;
