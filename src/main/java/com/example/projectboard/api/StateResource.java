@@ -13,6 +13,6 @@ public class StateResource {
 
     @RequestMapping(method = RequestMethod.GET, value = "/health-check")
     public ResponseEntity<String> checkServerState() {
-        return ResponseEntity.ok("connected");
+        return ResponseEntity.ok("is-connected");
     }
 }
