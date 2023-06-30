@@ -1,5 +1,6 @@
 package com.example.projectboard.security;
 
+import com.example.projectboard.security.filter.CorsFilter;
 import com.example.projectboard.security.filter.CustomizedAuthenticationFilter;
 import com.example.projectboard.security.filter.CustomizedAuthorizationFilter;
 import com.example.projectboard.security.jwt.JwtTokenProvider;
@@ -21,7 +22,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -34,7 +34,6 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final CorsFilter corsFilter;
 
     private final JwtTokenProvider jwts;
 
@@ -55,7 +54,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests().requestMatchers(HttpMethod.PUT).hasAnyRole("USER", "ADMIN");
         http.authorizeHttpRequests().requestMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN");
 
-        http.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(new CorsFilter(), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(new CustomizedAuthenticationFilter(authenticationManager(authenticationConfiguration()), jwts))
                 .addFilterBefore(new CustomizedAuthorizationFilter(authenticationManager(authenticationConfiguration()), jwts),
                         UsernamePasswordAuthenticationFilter.class);
