@@ -26,7 +26,10 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.json.MappingJacksonValue;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,7 +48,6 @@ public class UserResource {
     public UserResource(UserService userService) {
         this.userService = userService;
     }
-
 
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     @Operation(summary = "회원가입", description = "지정된 폼 형식에 맞는 회원 가입")

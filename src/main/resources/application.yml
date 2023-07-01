@@ -11,8 +11,8 @@ spring:
     password: ${db_password}
     url: ${db_url}
 
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
 
 
   jpa:

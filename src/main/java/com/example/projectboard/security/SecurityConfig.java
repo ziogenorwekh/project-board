@@ -1,12 +1,11 @@
 package com.example.projectboard.security;
 
 import com.example.projectboard.security.filter.CorsFilter;
-import com.example.projectboard.security.filter.CustomizedAuthenticationFilter;
 import com.example.projectboard.security.filter.CustomizedAuthorizationFilter;
 import com.example.projectboard.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,22 +18,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.Arrays;
-import java.util.Collections;
-
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
 
     private final JwtTokenProvider jwts;
 
@@ -47,7 +35,7 @@ public class SecurityConfig {
 
         http.formLogin().disable();
 
-        http.authorizeHttpRequests().requestMatchers("/login").permitAll();
+        http.authorizeHttpRequests().requestMatchers(HttpMethod.POST,"/api/login").permitAll();
         http.authorizeHttpRequests().requestMatchers(HttpMethod.POST, "/api/users")
                 .permitAll();
         http.authorizeHttpRequests().requestMatchers(HttpMethod.GET).permitAll();
@@ -56,25 +44,24 @@ public class SecurityConfig {
         http.authorizeHttpRequests().requestMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN");
 
         http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
-                .addFilter(new CustomizedAuthenticationFilter(authenticationManager(authenticationConfiguration()), jwts))
-                .addFilterBefore(new CustomizedAuthorizationFilter(authenticationManager(authenticationConfiguration()), jwts),
-                        UsernamePasswordAuthenticationFilter.class);
+//                .addFilter(new CustomizedAuthenticationFilter(authenticationManager(authenticationConfiguration()), jwts))
+                .addFilter(new CustomizedAuthorizationFilter(authenticationManager(authenticationConfiguration()), jwts));
 
         http.exceptionHandling()
                 .authenticationEntryPoint(new CustomizedAuthenticationEntryPoint())
                 .accessDeniedHandler(new CustomizedAccessDeniedHandler());
-
 
         return http.build();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authConfig) throws Exception {
+            @Qualifier("customAuthenticationConfiguration") AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
 
     @Bean
+    @Qualifier("customAuthenticationConfiguration")
     public AuthenticationConfiguration authenticationConfiguration() {
         return new AuthenticationConfiguration();
     }
