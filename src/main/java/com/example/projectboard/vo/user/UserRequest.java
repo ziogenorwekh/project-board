@@ -25,7 +25,7 @@ public class UserRequest {
 
     @Schema(description = "비밀번호", defaultValue = "testPassword")
     @Size(min = 4, message = "최소 네글자 이상의 비밀번호를 입력해주세요.")
-    @Pattern(regexp = "^[a-zA-Z\\\\d`~!@#$%^&*()-_=+]{4,16}$", message = "특수 문자는 적어도 하나 이상 포함되어야 합니다.")
+    @Pattern(regexp = "^[a-zA-Z\\d`~!@#$%^&*()-_=+]{4,16}$", message = "특수 문자는 적어도 하나 이상 포함되어야 합니다.")
     @NotNull(message = "빈 값은 허용되지 않습니다.")
     private String password;
 

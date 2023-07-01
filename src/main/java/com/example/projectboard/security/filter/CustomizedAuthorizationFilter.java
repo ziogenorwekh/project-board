@@ -40,7 +40,7 @@ public class CustomizedAuthorizationFilter extends BasicAuthenticationFilter {
 
 //        /login Path is ignored header
 
-        if (request.getServletPath().equals("/login") || header == null || !header.startsWith("Bearer")) {
+        if (header == null || !header.startsWith("Bearer")) {
             chain.doFilter(request, response);
             return;
         }

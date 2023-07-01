@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("dev")
+@SuppressWarnings("NonAsciiCharacters")
 public class UserServiceTest {
 
     @Autowired
@@ -59,8 +60,7 @@ public class UserServiceTest {
 
     @Test
     public void 일반계정의어드민계정의계정삭제() {
-        Assertions.assertThrows(CustomizedResponseException.class, () -> {
-            userService.delete(master.getUserId(), user.getUserId());
-        });
+        Assertions.assertThrows(CustomizedResponseException.class, () ->
+                userService.delete(master.getUserId(), user.getUserId()));
     }
 }

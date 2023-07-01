@@ -44,7 +44,6 @@ public class SecurityConfig {
         http.authorizeHttpRequests().requestMatchers(HttpMethod.DELETE).hasAnyRole("USER", "ADMIN");
 
         http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
-//                .addFilter(new CustomizedAuthenticationFilter(authenticationManager(authenticationConfiguration()), jwts))
                 .addFilter(new CustomizedAuthorizationFilter(authenticationManager(authenticationConfiguration()), jwts));
 
         http.exceptionHandling()

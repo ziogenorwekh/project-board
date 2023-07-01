@@ -3,10 +3,8 @@ package com.example.projectboard;
 import com.example.projectboard.dto.PostDto;
 import com.example.projectboard.dto.UserDto;
 import com.example.projectboard.exception.CustomizedResponseException;
-import com.example.projectboard.service.PostServiceImpl;
 import com.example.projectboard.service.TestPostService;
 import com.example.projectboard.service.TestUserService;
-import com.example.projectboard.service.UserServiceImpl;
 import com.example.projectboard.vo.post.PostRequest;
 import com.example.projectboard.vo.user.UserRequest;
 import org.junit.jupiter.api.AfterEach;
@@ -19,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("dev")
+@SuppressWarnings("NonAsciiCharacters")
 public class PostServiceTest {
 
     @Autowired
@@ -94,15 +93,13 @@ public class PostServiceTest {
 
     @Test
     public void 일반계정의다른일반계정게시글삭제() {
-        Assertions.assertThrows(CustomizedResponseException.class, () -> {
-            postService.delete(otherUserPost.getPostId(), user.getUserId());
-        });
+        Assertions.assertThrows(CustomizedResponseException.class, () ->
+                postService.delete(otherUserPost.getPostId(), user.getUserId()));
     }
 
     @Test
     public void 일반계정이어드민계정의게시글삭제() {
-        Assertions.assertThrows(CustomizedResponseException.class, () -> {
-            postService.delete(masterPost.getPostId(), user.getUserId());
-        });
+        Assertions.assertThrows(CustomizedResponseException.class, () ->
+                postService.delete(masterPost.getPostId(), user.getUserId()));
     }
 }

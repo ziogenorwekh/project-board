@@ -6,6 +6,7 @@ import com.example.projectboard.security.CustomizedUserDetails;
 import com.example.projectboard.security.jwt.JwtTokenProvider;
 import com.example.projectboard.vo.ExceptionResponse;
 import com.example.projectboard.vo.LoginRequest;
+import com.example.projectboard.vo.LoginResponse;
 import com.example.projectboard.vo.user.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,7 @@ import java.util.Map;
 
 import static com.example.projectboard.api.UserResource.applyResponseFieldFilter;
 
-
+@Tag(name = "유저 인증 API")
 @RequestMapping("/api")
 @RestController
 @CrossOrigin(origins = "http://43.200.8.149", methods = {RequestMethod.GET, RequestMethod.PUT,
@@ -59,8 +61,9 @@ public class AuthenticateResource {
                 UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         Authentication authenticate = authenticationManager.authenticate(token);
         userDetails = (CustomizedUserDetails) authenticate.getPrincipal();
-        Map<String, String> userInfo = tokenProvider.generateToken(userDetails);
-        return ResponseEntity.ok(userInfo);
+        LoginResponse loginResponse = new ModelMapper()
+                .map(tokenProvider.generateToken(userDetails), LoginResponse.class);
+        return ResponseEntity.ok().body(loginResponse);
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/users/currents")
