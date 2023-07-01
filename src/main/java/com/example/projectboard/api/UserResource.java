@@ -154,29 +154,8 @@ public class UserResource {
         return ResponseEntity.noContent().build();
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/users/currents")
-    @Operation(summary = "현재 유저 조회", description = "토큰을 이용한 현재 유저 상태 조회")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "조회 성공"
-                    , content = @Content(schema = @Schema())),
-            @ApiResponse(responseCode = "410", description = "토큰 만료"
-                    , content = @Content(schema = @Schema(implementation = ExceptionResponse.class))),
-    })
-    public ResponseEntity<MappingJacksonValue> currentUser(@AuthenticationPrincipal
-                                                           @Parameter(description = "로그인 정보")
-                                                           User user) {
-        if (user == null) {
-            throw new CustomizedResponseException(HttpStatus.GONE, "token is expired.");
-        }
 
-        UserResponse userResponse = new ModelMapper().map(userService.findOne(user.getUserId()),
-                UserResponse.class);
-
-        return ResponseEntity.ok()
-                .body(applyResponseFieldFilter(userResponse, "userId", "username"));
-    }
-
-    private MappingJacksonValue applyResponseFieldFilter(Object response, String... includedFields) {
+    public static MappingJacksonValue applyResponseFieldFilter(Object response, String... includedFields) {
         SimpleBeanPropertyFilter filter = includedFields.length > 0 ?
                 SimpleBeanPropertyFilter.filterOutAllExcept(includedFields) :
                 SimpleBeanPropertyFilter.serializeAll();
