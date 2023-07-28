@@ -1,11 +1,13 @@
 package com.example.projectboard.domain;
 
+import com.example.projectboard.exception.CustomizedResponseException;
 import com.example.projectboard.vo.user.UserRequest;
 import com.example.projectboard.vo.user.UserUpdateRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,5 +82,6 @@ public class User {
     public void delete() {
         this.getRoles().clear();
     }
+
 
 }

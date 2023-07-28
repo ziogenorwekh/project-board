@@ -94,8 +94,7 @@ public class PostServiceImpl implements PostService {
     public void updatePost(String postId, PostRequest postRequest, String userId) {
         Post post = postRepository.findPostByPostId(postId).orElseThrow(() ->
                 new CustomizedResponseException(HttpStatus.NOT_FOUND, "post not in database"));
-
-        this.validateOwnPost(post, userId);
+        post.validateOwnPost(userId);
         post.update(postRequest);
     }
 
@@ -114,7 +113,7 @@ public class PostServiceImpl implements PostService {
                 new CustomizedResponseException(HttpStatus.NOT_FOUND, "user not in database."));
 
         if (!user.hasRole("ROLE_ADMIN")) {
-            this.validateOwnPost(post, userId);
+            post.validateOwnPost(userId);
         }
         post.delete();
         postRepository.delete(post);
@@ -129,12 +128,4 @@ public class PostServiceImpl implements PostService {
                 });
         return map.map(post);
     }
-
-    private void validateOwnPost(Post post, String userId) {
-        if (!post.getUser().getUserId().equals(userId)) {
-            throw new CustomizedResponseException(HttpStatus.UNAUTHORIZED,
-                    "you're not authority this post.");
-        }
-    }
-
 }

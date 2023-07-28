@@ -56,14 +56,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDto updateUserInfo(String userId, UserUpdateRequest userUpdateRequest, String currentUserId) {
+    public UserDto updateUserInfo(String userId, UserUpdateRequest userUpdateRequest,
+                                  String currentUserId) {
 
         if (!userId.equals(currentUserId)) {
-            throw new CustomizedResponseException(HttpStatus.UNAUTHORIZED, "login user not matched current user.");
+            throw new CustomizedResponseException(HttpStatus.UNAUTHORIZED,
+                    "login user not matched current user.");
         }
 
         User user = userRepository.findUserByUserId(userId).orElseThrow(() ->
-                new CustomizedResponseException(HttpStatus.NOT_FOUND, "user not in database."));
+                new CustomizedResponseException(HttpStatus.NOT_FOUND,
+                        "user not in database."));
 
         String encryptedPassword = passwordEncoder.encode(userUpdateRequest.getPassword());
 
@@ -74,26 +77,27 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * @param userId        will delete user
-     * @param currentUserId current login user
+     * @param deleteUserId  will delete user
+     * @param currentUserId current login user, administrator
      */
     @Override
     @Transactional
-    public void delete(String userId, String currentUserId) {
-
-
-        User userToDelete = userRepository.findUserByUserId(userId).orElseThrow(() ->
-                new CustomizedResponseException(HttpStatus.NOT_FOUND, "User not found."));
+    public void delete(String deleteUserId, String currentUserId) {
 
         User currentUser = userRepository.findUserByUserId(currentUserId).orElseThrow(() ->
                 new CustomizedResponseException(HttpStatus.UNAUTHORIZED, "You are not authorized to delete the user."));
 
-        if (currentUser.getUserId().equals(userId) || currentUser.hasRole("ROLE_ADMIN")) {
+        User userToDelete = userRepository.findUserByUserId(deleteUserId).orElseThrow(() ->
+                new CustomizedResponseException(HttpStatus.NOT_FOUND, "User not found."));
+
+
+        if (currentUser.getUserId().equals(userToDelete.getUserId()) || currentUser.hasRole("ROLE_ADMIN")) {
             userToDelete.delete();
             userRepository.delete(userToDelete);
         } else {
             throw new CustomizedResponseException(HttpStatus.UNAUTHORIZED, "You are not authorized to delete the user.");
         }
+
     }
 
 

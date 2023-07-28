@@ -1,11 +1,13 @@
 package com.example.projectboard.domain;
 
+import com.example.projectboard.exception.CustomizedResponseException;
 import com.example.projectboard.vo.post.PostRequest;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,6 +64,13 @@ public class Post {
     public void update(PostRequest postRequest) {
         this.title = postRequest.getTitle();
         this.content = postRequest.getContent();
+    }
+
+    public void validateOwnPost(String userId) {
+        if (!this.user.getUserId().equals(userId)) {
+            throw new CustomizedResponseException(HttpStatus.UNAUTHORIZED,
+                    "you're not authority this post.");
+        }
     }
 
     public void delete() {
