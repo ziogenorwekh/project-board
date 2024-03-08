@@ -1,11 +1,13 @@
 package com.example.projectboard.service;
 
+import com.example.projectboard.domain.Role;
 import com.example.projectboard.domain.User;
 import com.example.projectboard.dto.UserDto;
 import com.example.projectboard.exception.CustomizedResponseException;
 import com.example.projectboard.repository.UserRepository;
 import com.example.projectboard.vo.user.UserRequest;
 import com.example.projectboard.vo.user.UserUpdateRequest;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,7 +27,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
 
     @Override
     @Transactional

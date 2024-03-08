@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
-@Entity
+@Entity(name = "user_role")
 @Getter
 @NoArgsConstructor
 public class Role {

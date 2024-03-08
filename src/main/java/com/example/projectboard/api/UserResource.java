@@ -39,8 +39,8 @@ import java.util.stream.Collectors;
 @Tag(name = "사용자 API")
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://43.200.8.149", methods = {RequestMethod.GET, RequestMethod.PUT,
-        RequestMethod.DELETE,RequestMethod.POST}, allowedHeaders = "*",allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost", methods = {RequestMethod.GET, RequestMethod.PUT,
+//        RequestMethod.DELETE,RequestMethod.POST}, allowedHeaders = "*",allowCredentials = "true")
 public class UserResource {
 
     private final UserService userService;
@@ -77,15 +77,16 @@ public class UserResource {
             @ApiResponse(responseCode = "200", description = "회원 조회 성공"
                     , content = @Content(schema = @Schema(implementation = UserListResponse.class))),
     })
-    public ResponseEntity<?> retrieveAllUsers() {
+    public ResponseEntity<MappingJacksonValue> retrieveAllUsers() {
         List<UserDto> list = userService.findAll();
         List<UserResponse> responses = list.stream()
                 .map(userDto -> new ModelMapper().map(userDto, UserResponse.class))
                 .collect(Collectors.toList());
 
         return ResponseEntity.status(HttpStatus.OK)
-                .body(applyResponseFieldFilter(new UserListResponse(responses), "userId", "email", "username"));
+                .body(applyResponseFieldFilter(responses, "userId", "email", "username"));
     }
+    
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
     @Operation(summary = "회원 조회", description = "회원 아이디를 통해 회원 검색")

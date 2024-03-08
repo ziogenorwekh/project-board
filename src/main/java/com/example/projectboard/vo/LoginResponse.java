@@ -14,4 +14,6 @@ public class LoginResponse {
     private String userId;
     @Schema(description = "유저네임", defaultValue = "username")
     private String username;
+    @Schema(description = "관리자 권한", defaultValue = "isAuth?")
+    private String admin;
 }

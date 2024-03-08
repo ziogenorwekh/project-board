@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,9 @@ import static com.example.projectboard.api.UserResource.applyResponseFieldFilter
 @Tag(name = "유저 인증 API")
 @RequestMapping("/api")
 @RestController
-@CrossOrigin(origins = "http://43.200.8.149", methods = {RequestMethod.GET, RequestMethod.PUT,
-        RequestMethod.DELETE, RequestMethod.POST}, allowedHeaders = "*", allowCredentials = "true")
+@Slf4j
+//@CrossOrigin(origins = "http://localhost", methods = {RequestMethod.GET, RequestMethod.PUT,
+//        RequestMethod.DELETE, RequestMethod.POST}, allowedHeaders = "*", allowCredentials = "true")
 public class AuthenticateResource {
 
     private final AuthenticationManager authenticationManager;
@@ -63,6 +65,7 @@ public class AuthenticateResource {
         userDetails = (CustomizedUserDetails) authenticate.getPrincipal();
         LoginResponse loginResponse = new ModelMapper()
                 .map(tokenProvider.generateToken(userDetails), LoginResponse.class);
+        log.debug("여기 통과");
         return ResponseEntity.ok().body(loginResponse);
     }
 
@@ -87,5 +90,6 @@ public class AuthenticateResource {
         return ResponseEntity.ok()
                 .body(applyResponseFieldFilter(userResponse, "userId", "username"));
     }
+
 
 }

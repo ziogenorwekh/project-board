@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-@Entity
+@Entity(name = "post_comment")
 @Getter
 @NoArgsConstructor
 public class Comment {
@@ -32,6 +32,7 @@ public class Comment {
         this.commentId = UUID.randomUUID().toString();
         this.comments = comments;
     }
+
     public static void createComment(CommentRequest commentRequest, Post post) {
         Comment comment = Comment.builder().comments(commentRequest.getComment())
                 .build();

@@ -26,7 +26,6 @@ token:
   secret: ${token_secret}
 
 springdoc:
-
   swagger-ui:
     enabled: true
     path: /api-docs

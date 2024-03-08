@@ -18,4 +18,5 @@ public interface UserService {
     UserDto updateUserInfo(String userId, UserUpdateRequest userUpdateRequest, String currentUserId);
 
     void delete(String userId,String currentUserId);
+
 }

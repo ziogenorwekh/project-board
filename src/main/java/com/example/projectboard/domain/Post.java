@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-@Entity
+@Entity(name = "post")
 @Getter
 @NoArgsConstructor
 public class Post {
