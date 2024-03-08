@@ -1,0 +1,35 @@
+logging:
+  level:
+    com.example.projectboard: DEBUG
+    org.springframework.core.env.PropertySourcesPropertyResolver: TRACE
+    org.springframework.jdbc.core: DEBUG
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${db_username}
+    password: ${db_password}
+    url: ${db_url}
+
+  profiles:
+    active: dev
+
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    database: mysql
+
+token:
+  secret: ${token_secret}
+
+springdoc:
+  swagger-ui:
+    enabled: true
+    path: /api-docs
+
+server:
+  port: 9000
+
